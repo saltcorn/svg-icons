@@ -1,0 +1,31 @@
+{
+  "name": "@saltcorn/svg-icons",
+  "version": "0.1.0",
+  "description": "Use SVG files as icons",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saltcorn/svg-icons.git"
+  },
+  "author": "Tom Nielsen",
+  "license": "MIT",
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "parserOptions": {
+      "ecmaVersion": 2020
+    },
+    "env": {
+      "node": true,
+      "es6": true
+    },
+    "rules": {
+      "no-unused-vars": "off",
+      "no-case-declarations": "off",
+      "no-empty": "warn",
+      "no-fallthrough": "warn"
+    }
+  },
+  "dependencies": {
+    "bootstrap-icons": "^1.13.1"
+  }
+}
