@@ -25,13 +25,11 @@ const configuration_workflow = () =>
                   },
                   {
                     name: "svg_file",
-                    label: "SVG file",
-                    type: "File",
+                    label: "SVG file name",
+                    type: "String",
                     required: true,
+                    sublabel: "Path to file in Saltcorn file store",
                     //fieldview: "select",
-                    attributes: {
-                      files_accept_filter: "image/svg+xml"
-                    }
                   },
                 ],
               }),
@@ -49,21 +47,28 @@ module.exports = {
   headers: (cfg) => [
     {
       //https://stackoverflow.com/a/42443560
-      style: `.svgi {
-    background-repeat: no-repeat;
-    background-size: cover;
-
+      style: `.svgi {   
     display: inline-block;
     height: 12px;
     width: 15px;
-}
-${(cfg?.icons || [])
-        .map(
-          ({ short_name, svg_file }) =>
-            `.svgi-${short_name} { background-image: url('/files/serve/${svg_file}');}`
-        )
-        .join("\n")}`,
+}`,
+    },
+    {
+      headerTag: `<script>function iconToSvg(nm){
+        return {${(cfg?.icons || [])
+          .map(
+            ({ short_name, svg_file }) =>
+              `${short_name}:'/files/serve/${svg_file}'`
+          )
+          .join(",")}}[nm]||""
+      }</script>`,
+    },
+    {
+      script: `/plugins/public/svg-icons@${
+        require("./package.json").version
+      }/svg-icons.js`,
     },
   ],
-  icons: (cfg)=>(cfg?.icons || []).map(({short_name}) => `svgi svgi-${short_name}`),
+  icons: (cfg) =>
+    (cfg?.icons || []).map(({ short_name }) => `svgi svgi-${short_name}`),
 };
