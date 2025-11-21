@@ -4,15 +4,28 @@ function replaceIconElement(el) {
   if (!iconClass) return;
 
   const iconName = iconClass.replace("svgi-", "");
+
+  const replace_i = (the_svg) => {
+    const temp = document.createElement("div");
+    temp.innerHTML = the_svg;
+    const svgEl = temp.firstElementChild;
+    el.replaceWith(svgEl);
+  };
+
+  const cached_svg = sessionStorage.getItem(`svgicon_${iconName}`);
+  if (cached_svg) {
+    replace_i(cached_svg);
+    return;
+  }
   const svgUrl = iconToSvg(iconName);
 
   fetch(svgUrl)
     .then((res) => res.text())
     .then((svgText) => {
-      const temp = document.createElement("div");
-      temp.innerHTML = svgText.trim();
-      const svgEl = temp.firstElementChild;
-      el.replaceWith(svgEl);
+      const the_svg = svgText.trim();
+
+      sessionStorage.setItem(`svgicon_${iconName}`, the_svg);
+      replace_i(the_svg);
     })
     .catch((err) =>
       console.error(`Failed to load SVG for icon "${iconName}":`, err)
