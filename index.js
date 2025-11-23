@@ -3,6 +3,7 @@ const Field = require("@saltcorn/data/models/field");
 const Table = require("@saltcorn/data/models/table");
 const FieldRepeat = require("@saltcorn/data/models/fieldrepeat");
 const Workflow = require("@saltcorn/data/models/workflow");
+const { features } = require("@saltcorn/data/db/state");
 
 const configuration_workflow = () =>
   new Workflow({
@@ -23,14 +24,22 @@ const configuration_workflow = () =>
                     required: true,
                     sublabel: "Must be a valid identifier",
                   },
-                  {
-                    name: "svg_file",
-                    label: "SVG file name",
-                    type: "String",
-                    required: true,
-                    sublabel: "Path to file in Saltcorn file store",
-                    //fieldview: "select",
-                  },
+                  features.file_fieldviews_cfg_workflows
+                    ? {
+                        name: "svg_file",
+                        label: "SVG file name",
+                        type: "File",
+                        required: true,
+                        fieldview: "select",
+                        attributes: { file_exts: "svg", use_picker: true },
+                      }
+                    : {
+                        name: "svg_file",
+                        label: "SVG file name",
+                        type: "String",
+                        required: true,
+                        sublabel: "Path to file in Saltcorn file store",
+                      },
                 ],
               }),
             ],
