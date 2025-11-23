@@ -25,7 +25,5 @@
       "no-fallthrough": "warn"
     }
   },
-  "dependencies": {
-    "bootstrap-icons": "^1.13.1"
-  }
+  "dependencies": {}
 }
